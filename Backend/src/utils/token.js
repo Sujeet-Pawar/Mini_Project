@@ -1,0 +1,31 @@
+import jwt from 'jsonwebtoken';
+import env from '../config/env.js';
+
+export const generateAccessToken = (payload, options = {}) => {
+  return jwt.sign(payload, env.JWT_ACCESS_SECRET, {
+    expiresIn: env.JWT_ACCESS_EXPIRES_IN,
+    ...options
+  });
+};
+
+export const generateRefreshToken = (payload, options = {}) => {
+  return jwt.sign(payload, env.JWT_REFRESH_SECRET, {
+    expiresIn: env.JWT_REFRESH_EXPIRES_IN,
+    ...options
+  });
+};
+
+export const verifyAccessToken = (token) => {
+  return jwt.verify(token, env.JWT_ACCESS_SECRET);
+};
+
+export const verifyRefreshToken = (token) => {
+  return jwt.verify(token, env.JWT_REFRESH_SECRET);
+};
+
+export default {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyAccessToken,
+  verifyRefreshToken
+};
